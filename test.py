@@ -2,7 +2,7 @@ import win32api
 import win32con
 import pyperclip
 import time
-from mouse_keyboard import Mouse, Keyboard
+from core.mouse_keyboard import Mouse, Keyboard
 
 def get_mouse_position():
     return win32api.GetCursorPos()

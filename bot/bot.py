@@ -1,14 +1,12 @@
+from core import Core, Map
 from time import sleep
-import exceptions as e
-import constants as c
-from map import Map
-from core import Core
-
+import core.exceptions as e
+import core.constants as c
 
 class Bot:
-    def __init__(self, bot_name, trajet):
+    def __init__(self, bot_name):
         self.core = Core(bot_name, c.DOFUS_VERSION)
-        self._map = Map(self.core, trajet)
+        self.map = Map(self.core)
         self.map_echec = 0
 
     def ui_remover(self):
@@ -29,11 +27,14 @@ class Bot:
         sleep(timeout)
 
     def execute_action(self, actions):
-        print(f'Execute action: {actions}')
         for action in actions:
             if isinstance(action, str):
                 self.map_404(action)
                 continue
+
+            # Convert list to tuple if necessary
+            if isinstance(action, list):
+                action = tuple(action)
 
             self.make_action(action[:2])
             if len(action) == 7:
@@ -43,12 +44,11 @@ class Bot:
 
     def execute_move(self, move):
         print(f'Executing move: {move}')
-        self._map.change(move)
+        self.map.change(move)
 
     def execute_trajet(self):
         try:
-            trajet = self._map.get_trajet()
-
+            trajet = self.map.get_trajet()
             if 'action' in trajet:
                 self.execute_action(trajet['action'])
             if 'move' in trajet:
@@ -60,7 +60,7 @@ class Bot:
             print("Action failed. Retrying...")
             # Continue to retry as per the initial logic.
         except Exception as ex:
-            print(f"Unexpected error: {ex}")
+            print(f"Unexpected errors: {ex}")
             self.stop()
 
     def map_404(self, action):
@@ -87,5 +87,6 @@ class Bot:
             raise e.Disconnected
 
     def stop(self):
-        print(f"Stopping bot: {self.core.bot_name}")
+        print(f"Stopping bot.")
         # Implement additional cleanup if needed
+
