@@ -4,9 +4,10 @@ import core.exceptions as e
 import core.constants as c
 
 class Bot:
-    def __init__(self, bot_name):
-        self.core = Core(bot_name, c.DOFUS_VERSION)
-        self.map = Map(self.core)
+    def __init__(self, bot_name, config):
+        self.bot_name = bot_name
+        self.core = Core(bot_name)
+        self.map = Map(self.core, config)
         self.map_echec = 0
 
     def ui_remover(self):
@@ -46,9 +47,9 @@ class Bot:
         print(f'Executing move: {move}')
         self.map.change(move)
 
-    def execute_trajet(self):
+    def execute_trajet(self, trajet):
         try:
-            trajet = self.map.get_trajet()
+            # trajet = self.map.get_trajet()
             if 'action' in trajet:
                 self.execute_action(trajet['action'])
             if 'move' in trajet:

@@ -1,24 +1,17 @@
 from time import sleep
 import core.constants as c
-import json
-
 
 class Map:
-    def __init__(self, core):
+    def __init__(self, core, config):
         self.core = core
         self.current = None
-        self.trajet = self.load_trajet()
-
-    def load_trajet(self):
-        with open("trajets/trajets.json", "r") as file:
-            trajet_data = json.load(file)
-        return trajet_data
+        self.trajet = config.data
 
     def get_trajet(self):
         map_id = self.get_map_id()
         if map_id and map_id in self.trajet:
             return self.trajet[map_id]
-        return self.trajet['404']
+        return self.trajet.get('404', {})
 
     def change(self, direction):
         if direction in c.DIRECTIONS:

@@ -2,6 +2,17 @@ import win32gui, win32con, win32api
 from time import sleep
 from random import randint
 
+
+def find_window(name):
+    def enum_windows(hwnd, results):
+        if win32gui.IsWindowVisible(hwnd) and win32gui.GetWindowTextLength(hwnd) > 0:
+            win_text = win32gui.GetWindowText(hwnd)
+            if name in win_text:
+                results.append(win_text)
+    window_list = []
+    win32gui.EnumWindows(enum_windows, window_list)
+    return window_list[0] if window_list else None
+
 class Mouse:
     def __init__(self, window_name):
         self.hwnd = win32gui.FindWindow(None, window_name)

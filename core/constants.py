@@ -1,4 +1,4 @@
-DOFUS_VERSION = '2.71.6.10'
+# DOFUS_VERSION = '2.71.6.10'
 
 # Change map position (where to click to change map)
 DIRECTIONS = {

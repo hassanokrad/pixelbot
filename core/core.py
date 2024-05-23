@@ -8,8 +8,8 @@ from pyperclip import paste
 
 
 class Core:
-    def __init__(self, name, version):
-        self.window_name = f"{name} - Dofus {version}"
+    def __init__(self, name):
+        self.window_name = f"{name}"
         self.mouse = inactive.Mouse(self.window_name)
         self.keyboard = inactive.Keyboard(self.window_name)
         self.resize_window(800, 600)
